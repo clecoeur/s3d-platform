@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy/Gilroy-Regular.woff2') format('woff2'),
+    url('../fonts/Gilroy/Gilroy-Regular.woff') format('woff'),
+    url('../fonts/Gilroy/Gilroy-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy/Gilroy-Medium.woff2') format('woff2'),
+    url('../fonts/Gilroy/Gilroy-Medium.woff') format('woff'),
+    url('../fonts/Gilroy/Gilroy-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy/Gilroy-Semibold.woff2') format('woff2'),
+    url('../fonts/Gilroy/Gilroy-Semibold.woff') format('woff'),
+    url('../fonts/Gilroy/Gilroy-Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy/Gilroy-Bold.woff2') format('woff2'),
+    url('../fonts/Gilroy/Gilroy-Bold.woff') format('woff'),
+    url('../fonts/Gilroy/Gilroy-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gantari';
+    src: url('../fonts/Gantari/Gantari-SemiBold.woff2') format('woff2'),
+    url('../fonts/Gantari/Gantari-SemiBold.woff') format('woff'),
+    url('../fonts/Gantari/Gantari-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gantari';
+    src: url('../fonts/Gantari/Gantari-Regular.woff2') format('woff2'),
+    url('../fonts/Gantari/Gantari-Regular.woff') format('woff'),
+    url('../fonts/Gantari/Gantari-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    @apply text-base font-text bg-foreground text-gray-200;
+}
+
+
+/*
+ * Custom tippy.js
+*/
+.tippy-popper {
+    background: red!important;
+}
+
+
+.is-underline {
+    position: relative;
+}
+.is-underline:before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    transition: all 0.5s;
+    @apply bg-secondary;
+}
+.is-underline:hover:before {
+    width: 100%;
+}
+
+.entry-content > a {
+    @apply underline text-secondary font-bold hover:no-underline transition-all ease-in-out duration-150;
+}
+
+[x-cloak] { display: none !important; }
