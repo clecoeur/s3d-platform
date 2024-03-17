@@ -10,7 +10,7 @@ class Project extends Corcel
 {
     protected $postType = 'projets';
 
-    protected $appends = ['files'];
+    protected $appends = ['files', 'rooms', 'firstRoom'];
 
     public function files()
     {
@@ -53,6 +53,36 @@ class Project extends Corcel
         }
 
         return $blocks;
+    }
+
+    public function rooms()
+    {
+        $countRooms = $this->meta->rooms;
+
+        $items = [];
+        for ($j = 0; $j < $countRooms; $j++) {
+            $items[] = [
+                'name' => $this->{"rooms_" . $j . "_name"},
+                'link' =>$this->{"rooms_" . $j . "_matterPortLink"},
+            ];
+        }
+
+
+        return json_decode(json_encode($items));
+    }
+
+    public function firstRoom() {
+        $countRooms = $this->meta->rooms;
+
+        $items = [];
+        for ($j = 0; $j < $countRooms; $j++) {
+            $items[] = [
+                'name' => $this->{"rooms_" . $j . "_name"},
+                'link' =>$this->{"rooms_" . $j . "_matterPortLink"},
+            ];
+        }
+
+        return json_decode(json_encode($items[0]));
     }
 
 }

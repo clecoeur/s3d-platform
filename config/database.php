@@ -43,7 +43,7 @@ return [
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => 'wp_',
-            'port' => '10026',
+            'port' => '10046',
             'strict'    => false,
             'engine'    => null,
         ],

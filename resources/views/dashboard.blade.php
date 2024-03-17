@@ -1,24 +1,16 @@
 <x-app-layout>
     <div
-        x-data="{openPopoverProjects: false, openPopoverDownloads: false, overlayIsOpen: false}">
+        x-data="{openPopoverProjects: false, openPopoverDownloads: false, overlayIsOpen: false, currentMatterport: '{{ $currentProject->firstRoom()->link }}'}">
         <nav class="fixed top-0 px-49 z-[50] flex justify-center w-full py-32 bg-gradient-to-b from-foreground/60 to-transparent">
-            <img src="{{ asset('images/logo.svg') }}" class="h-[56px]" alt="">
+            <img src="{{ asset('images/logo.svg') }}" class="h-[40px]" alt="">
         </nav>
         <div class="w-full h-screen min-h-screen">
             <div x-show="overlayIsOpen" x-cloak class="bg-overlay/80 backdrop-blur-sm absolute top-0 left-0 w-full h-full"></div>
-            @if(!empty($currentProject->meta->projectMatterport))
-                <iframe src="{{ $currentProject->meta->projectMatterport }}" allow="xr-spatial-tracking"
-                        class="w-full h-[calc(100%_-_72px)] object-cover aspect-video"></iframe>
-            @elseif(!empty($project->meta->_thumbnail_id))
-                <img src="{{ \Corcel\Model\Attachment::find($project->meta->_thumbnail_id)->guid  }}"
-                     class="rounded-xl w-full h-full object-cover aspect-video" alt="">
-            @else
-                <img src="{{ asset('images/no-media.jpg')  }}"
-                     class="rounded-xl w-full h-full object-cover aspect-video" alt="">
-            @endif
+                <iframe :src="currentMatterport" allow="xr-spatial-tracking"
+                        class="w-full h-[calc(100%_-_69px)] object-cover aspect-video"></iframe>
         </div>
-        <div class="fixed bottom-0 left-0 w-full py-20 px-32 bg-foreground flex items-center justify-between">
-            <div class="flex flex-col">
+        <div class="fixed bottom-0 left-0 w-full px-32 bg-foreground flex items-start justify-between">
+            <div class="flex flex-col py-20">
                 <h1 class="text-gray-200 font-bold font-title text-lg">{{ $currentProject->post_title }}</h1>
                 @php($address = unserialize($currentProject->meta->projectLocation))
                 <p class="text-gray-600 flex gap-4 items-center">
@@ -41,14 +33,26 @@
                     @endif
                 </p>
             </div>
-            <div class="flex gap-24 items-center">
-                <form method="POST" action="{{ route('logout') }}">
+            @if($currentProject->rooms())
+                <ul class="flex gap-32 items-center">
+                    @foreach($currentProject->rooms() as $room)
+                        <li :class="[
+                            'cursor-pointer pt-20 border-t-4 group',
+                            currentMatterport === '{{ $room->link }}' ? 'border-secondary text-secondary' : 'border-transparent text-gray-600'
+                          ]">
+                            <span class="font-title font-semiBold group-hover:text-gray-200 cursor-pointer" @click="currentMatterport = '{{ $room->link }}'">{{ $room->name }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+            <div class="flex gap-24 items-center py-20">
+                <!-- <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
                             class="flex gap-8 text-gray-600 text-[14px] font-bold font-title transition-all ease-in duration-300 group hover:text-gray-200">
                         Se déconnecter
                     </button>
-                </form>
+                </form>-->
 
                 <a href="https://www.s3dengineeringsolutions.com/"
                    class="flex gap-8 text-gray-600 text-[14px] font-bold font-title transition-all ease-in duration-300 group hover:text-gray-200">
@@ -68,7 +72,7 @@
                 <div class="flex gap-12 border-l border-[#30374F] pl-24">
                     @if($currentProject->files())
                         <div x-data="{ tooltip: 'Télécharger' }">
-                            <button @click="openPopoverDownloads = !openPopoverDownloads; overlayIsOpen = true" x-tooltip.top="tooltip"
+                            <button @click="openPopoverDownloads = !openPopoverDownloads; overlayIsOpen = false; overlayIsOpen = true" x-tooltip.top="tooltip"
                                     class="p-8 text-gray-600 hover:text-gray-200 transition-all ease-in duration-300">
                                 <svg width="24" height="24" viewBox="0 0 20 20" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
