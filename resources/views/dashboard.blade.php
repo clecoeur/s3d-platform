@@ -1,13 +1,16 @@
 <x-app-layout>
     <div
-        x-data="{openPopoverProjects: false, openPopoverDownloads: false, overlayIsOpen: false, currentMatterport: '{{ $currentProject->firstRoom()->link }}'}">
+        x-data="{openPopoverProjects: false, openPopoverDownloads: false, overlayIsOpen: false, currentMatterport: '{{ $currentProject->firstRoom() ? $currentProject->firstRoom()->link : false }}'}">
         <nav class="fixed top-0 px-49 z-[50] flex justify-center w-full py-32 bg-gradient-to-b from-foreground/60 to-transparent">
             <img src="{{ asset('images/logo.svg') }}" class="h-[40px]" alt="">
         </nav>
         <div class="w-full h-screen min-h-screen">
             <div x-show="overlayIsOpen" x-cloak class="bg-overlay/80 backdrop-blur-sm absolute top-0 left-0 w-full h-full"></div>
-                <iframe :src="currentMatterport" allow="xr-spatial-tracking"
+                <iframe x-show="currentMatterport" :src="currentMatterport" allow="xr-spatial-tracking"
                         class="w-full h-[calc(100%_-_69px)] object-cover aspect-video"></iframe>
+
+                <img x-show="!currentMatterport" src="{{ asset('images/no-media.jpg')  }}"
+                     class="rounded-xl w-full h-full object-cover aspect-video" alt="">
         </div>
         <div class="fixed bottom-0 left-0 w-full px-32 bg-foreground flex items-start justify-between">
             <div class="flex flex-col py-20">
@@ -33,7 +36,7 @@
                     @endif
                 </p>
             </div>
-            @if($currentProject->rooms())
+            @if($currentProject->rooms() && count($currentProject->rooms()) > 1)
                 <ul class="flex gap-32 items-center">
                     @foreach($currentProject->rooms() as $room)
                         <li :class="[

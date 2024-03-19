@@ -82,6 +82,10 @@ class Project extends Corcel
             ];
         }
 
+        if(count($items) < 1) {
+            return null;
+        }
+
         return json_decode(json_encode($items[0]));
     }
 
